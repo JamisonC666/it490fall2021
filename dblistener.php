@@ -4,6 +4,7 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 require_once('login.php.inc');
+require_once('register.php.inc');
 
 function doLogin($username,$password)
 {
@@ -14,6 +15,12 @@ function doLogin($username,$password)
     //return false if not valid
 }
 
+
+function doregister($username,$password,$email)
+{
+    $login = new registerDB();
+    return $login->validateregister($username,$password,$email);
+}
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
@@ -29,7 +36,7 @@ function requestProcessor($request)
     case "validate_session":
       return doValidate($request['sessionId']);
     case "register":
-	   return doRegister($request['email'],$request['username'],$request['password']);
+      return doRegister($request['username'],$request['password'],$request['email']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

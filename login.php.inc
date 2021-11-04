@@ -6,7 +6,7 @@ private $logindb;
 
 public function __construct()
 {
-	$this->logindb = new mysqli("127.0.0.1","root","Kerro666!","accounts");
+	$this->logindb = new mysqli("127.0.0.1","root","Root666!","accounts");
 
 	if ($this->logindb->connect_errno != 0)
 	{
@@ -20,9 +20,9 @@ public function validateLogin($username,$password)
 {
 	$un = $this->logindb->real_escape_string($username);
 	$pw = $this->logindb->real_escape_string($password);
-	$statement = "select * from users where screenname = '$un'";
+	$statement = "select * from users where username = '$un'";
 	$response = $this->logindb->query($statement);
-
+	if($response->num_rows > 0){
 	while ($row = $response->fetch_assoc())
 	{
 		echo "checking password for $username".PHP_EOL;
@@ -32,7 +32,7 @@ public function validateLogin($username,$password)
 			return 1;// password match
 		}
 		echo "passwords did not match for $username".PHP_EOL;
-	}
+	}}
 	return 0;//no users matched username
 }
 }
